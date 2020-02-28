@@ -85,10 +85,10 @@ __config_proxy() {
 		__read_git_proxy_type="socks5"
 	fi
 
-	echo "http://${__read_http}" >"${HOME}/.zsh-proxy/http"
-	echo "socks5://${__read_socks5}" >"${HOME}/.zsh-proxy/socks5"
-	echo "${__read_no_proxy}" >"${HOME}/.zsh-proxy/no_proxy"
-	echo "${__read_git_proxy_type}" >"${HOME}/.zsh-proxy/git_proxy_type"
+	echo "http://${__read_http}" >!"${HOME}/.zsh-proxy/http"
+	echo "socks5://${__read_socks5}" >!"${HOME}/.zsh-proxy/socks5"
+	echo "${__read_no_proxy}" >!"${HOME}/.zsh-proxy/no_proxy"
+	echo "${__read_git_proxy_type}" >!"${HOME}/.zsh-proxy/git_proxy_type"
 
 	__read_proxy_config
 }
@@ -123,7 +123,7 @@ __enable_proxy_all() {
 	export HTTP_PROXY="${__ZSHPROXY_HTTP}"
 	# https_proxy
 	export https_proxy="${__ZSHPROXY_HTTP}"
-	export HTTPS_proxy="${__ZSHPROXY_HTTP}"
+	export HTTPS_PROXY="${__ZSHPROXY_HTTP}"
 	# ftp_proxy
 	export ftp_proxy="${__ZSHPROXY_HTTP}"
 	export FTP_PROXY="${__ZSHPROXY_HTTP}"
@@ -247,7 +247,7 @@ __auto_proxy() {
 init_proxy() {
 	mkdir -p "$HOME/.zsh-proxy"
 	touch "$HOME/.zsh-proxy/status"
-	echo "0" >"${HOME}/.zsh-proxy/status"
+	echo "0" >!"${HOME}/.zsh-proxy/status"
 	touch "$HOME/.zsh-proxy/http"
 	touch "$HOME/.zsh-proxy/socks5"
 	touch "$HOME/.zsh-proxy/no_proxy"
@@ -274,13 +274,13 @@ config_proxy() {
 }
 
 proxy() {
-	echo "1" >"${HOME}/.zsh-proxy/status"
+	echo "1" >!"${HOME}/.zsh-proxy/status"
 	__enable_proxy
 	__check_ip
 }
 
 noproxy() {
-	echo "0" >"${HOME}/.zsh-proxy/status"
+	echo "0" >!"${HOME}/.zsh-proxy/status"
 	__disable_proxy
 	__check_ip
 }
